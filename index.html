@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>b1L80 API calling XMLHttp Request part2 </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">title</th>
+                <th scope="col">price</th>
+                <th scope="col">description</th>
+                <th scope="col">category</th>
+            </tr>
+        </thead>
+        <tbody>
+           
+
+        </tbody>
+    </table>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+
+
+    <script>
+        //1 function defination
+
+        function getInfo(object, cbfn) {
+
+            let xhr = new XMLHttpRequest(); // create a XML object 
+
+            xhr.open(object.method, object.url);
+
+            xhr.send();
+
+            xhr.onload = function () {
+
+                // console.log(xhr.responseText)
+                cbfn(xhr.responseText)
+            }
+
+
+        }
+
+
+        //2 function calling
+        getInfo({ url: 'https://fakestoreapi.com/products', method: 'GET' }, function (response) { // call back function
+            console.log(typeof response)
+            console.log(response)
+
+            response = JSON.parse(response);
+            console.log(typeof response);
+
+            console.log(response);
+
+            let tr = " ";
+
+            response.forEach((CE, idx, arr) => {
+
+                tr += `<tr>
+                            <th scope="row">${CE.id}</th>
+                            <td>${CE.title}</td>
+                            <td>${CE.price}</td>
+                            <td>${CE.description}</td>
+                            <td>${CE.category}</td>
+                        </tr>`
+
+            });
+            console.log("table row", tr)
+
+            document.querySelector('.table > tbody').innerHTML = tr;
+
+            document.querySelector('div.text-center').remove();
+
+        })
+    </script>
+</body>
+
+</html>
